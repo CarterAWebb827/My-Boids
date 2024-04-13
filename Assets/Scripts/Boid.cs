@@ -35,6 +35,8 @@ public class Boid : MonoBehaviour {
     private Vector2 averageVelocityPerceived;
     private int velocityMatched;
 
+    private Material boidMaterial;
+
     private void Start() {
         widthOfArea = transform.parent.GetComponent<BoidManager>().width;
         heightOfArea = transform.parent.GetComponent<BoidManager>().height;
@@ -67,6 +69,10 @@ public class Boid : MonoBehaviour {
 
         transform.position = boid.position;
         transform.rotation = Quaternion.Euler(0, 0, boid.angle);
+
+        // set the material of the boid to the base material
+        boidMaterial = transform.parent.GetComponent<BoidManager>().boidBaseMaterial;
+        GetComponent<SpriteRenderer>().material = boidMaterial;
     }
 
     private void Update() {
@@ -142,6 +148,14 @@ public class Boid : MonoBehaviour {
             if (boidPerceived != gameObject) {
                 centerOfMassPerceived += (Vector2)boidPerceived.transform.position;
                 boidCountPerceived++;
+
+                // // change the material of the boid to the searching material
+                // GetComponent<SpriteRenderer>().material = transform.parent.GetComponent<BoidManager>().boidSearchingMaterial;
+
+                // // if the boid is close to the target, change the material to the found material
+                // if (Vector2.Distance(boidPerceived.transform.position, transform.position) < perceptionRadius) {
+                //     GetComponent<SpriteRenderer>().material = transform.parent.GetComponent<BoidManager>().boidFoundMaterial;
+                // }
             }
         }
 

@@ -28,7 +28,7 @@ RectTransform:
   m_GameObject: {fileID: 5393964827448588726}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -105,6 +105,7 @@ MonoBehaviour:
   rule1Vector: {x: 0, y: 0}
   rule2Vector: {x: 0, y: 0}
   rule3Vector: {x: 0, y: 0}
+  rule4Vector: {x: 0, y: 0}
 --- !u!222 &8347510426304793607
 CanvasRenderer:
   m_ObjectHideFlags: 0

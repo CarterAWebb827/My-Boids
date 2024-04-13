@@ -19,10 +19,12 @@ public class BoidManager : MonoBehaviour {
     [Header("Boid Characteristics")]
     [SerializeField] public float boidPerceptionRadius;
     [SerializeField] public float maxSpeed;
-    [SerializeField] public float maxSteerForce;
     [SerializeField] public float desiredSeparation;
     [SerializeField] public int percentageMovedToCenter;
     [SerializeField] public int velocityMatched;
+    [SerializeField] public Material boidBaseMaterial;
+    [SerializeField] public Material boidSearchingMaterial;
+    [SerializeField] public Material boidFoundMaterial;
     public Vector2 windDirection;
     public GameObject[] boids;
 

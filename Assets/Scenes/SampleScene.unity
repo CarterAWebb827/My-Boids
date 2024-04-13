@@ -259,18 +259,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 649b21e6146076a46bde66e97893d7d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boidCount: 50
+  boidCount: 100
   boidPrefab: {fileID: 5393964827448588726, guid: 664696b830c45504487b74f707e34221, type: 3}
   width: 250
   height: 250
   camera: {fileID: 519420028}
   boidPerceptionRadius: 25
   maxSpeed: 100
-  maxSteerForce: 0
-  desiredSeparation: 3
+  desiredSeparation: 4
   percentageMovedToCenter: 100
-  velocityMatched: 5
+  velocityMatched: 20
+  boidBaseMaterial: {fileID: 2100000, guid: 5a1c1e26db911b84284bc10868656f89, type: 2}
+  boidSearchingMaterial: {fileID: 2100000, guid: 22873bbc7c5704341b7d7082d53e45f1, type: 2}
+  boidFoundMaterial: {fileID: 2100000, guid: 25af737a82ad1c74694d1e6e62a954c9, type: 2}
+  windDirection: {x: 0, y: 0}
   boids: []
+  maxFrameCount: 100
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
