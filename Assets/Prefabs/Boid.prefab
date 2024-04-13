@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7547545622242928371}
   - component: {fileID: 2892172565676447899}
   - component: {fileID: 2036907818305572379}
+  - component: {fileID: 8347510426304793607}
   m_Layer: 0
   m_Name: Boid
   m_TagString: Untagged
@@ -18,14 +19,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7547545622242928371
-Transform:
+--- !u!224 &7547545622242928371
+RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5393964827448588726}
-  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -33,6 +33,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 1, y: 1}
+  m_Pivot: {x: 0.5, y: 0.28866667}
 --- !u!212 &2892172565676447899
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -100,3 +105,11 @@ MonoBehaviour:
   rule1Vector: {x: 0, y: 0}
   rule2Vector: {x: 0, y: 0}
   rule3Vector: {x: 0, y: 0}
+--- !u!222 &8347510426304793607
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5393964827448588726}
+  m_CullTransparentMesh: 1

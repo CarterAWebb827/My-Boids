@@ -20,6 +20,7 @@ public class Boid : MonoBehaviour {
     private float perceptionRadius;
 
     public Vector2 rule1Vector, rule2Vector, rule3Vector;
+    public Vector2 rule4Vector;
     private GameObject[] boidsPerceived;
 
     [Header("Rule 1")]
@@ -75,11 +76,17 @@ public class Boid : MonoBehaviour {
         bool isBoidPerceived = CheckForNeighboringBoids();
         
         if (isBoidPerceived) {
-            rule1Vector = Rule1();
-            rule2Vector = Rule2();
-            rule3Vector = Rule3();
+            // rule1Vector = Rule1();
+            // rule2Vector = Rule2();
+            // rule3Vector = Rule3();
 
-            combinedVector = rule1Vector + rule2Vector + rule3Vector;
+            rule1Vector = Rule1() / 5;
+            rule2Vector = Rule2() * 2;
+            rule3Vector = Rule3() / 5;
+
+            rule4Vector = WindRule() * 2;
+
+            combinedVector = rule1Vector + rule2Vector + rule3Vector + rule4Vector;
         } else {
             combinedVector = boid.velocity;
         }
@@ -184,5 +191,12 @@ public class Boid : MonoBehaviour {
         } else {
             return Vector2.zero;
         }
+    }
+
+    private Vector2 WindRule() {
+        Vector2 windDirection = transform.parent.GetComponent<BoidManager>().windDirection;
+        float windMagnitude = Random.Range(0, 0.2f);
+
+        return windDirection * windMagnitude;
     }
 }

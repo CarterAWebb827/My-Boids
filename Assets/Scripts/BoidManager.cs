@@ -19,10 +19,15 @@ public class BoidManager : MonoBehaviour {
     [Header("Boid Characteristics")]
     [SerializeField] public float boidPerceptionRadius;
     [SerializeField] public float maxSpeed;
+    [SerializeField] public float maxSteerForce;
     [SerializeField] public float desiredSeparation;
     [SerializeField] public int percentageMovedToCenter;
     [SerializeField] public int velocityMatched;
+    public Vector2 windDirection;
     public GameObject[] boids;
+
+    private int frameCounter = 0;
+    [SerializeField] public int maxFrameCount = 100;
 
     private void Awake() {
         // Make the camera fit the screen
@@ -37,6 +42,8 @@ public class BoidManager : MonoBehaviour {
 
             boids[i] = boid;
         }
+
+        windDirection = Random.insideUnitCircle.normalized;
     }
 
     private void OnDrawGizmos() {
@@ -46,5 +53,14 @@ public class BoidManager : MonoBehaviour {
         Gizmos.DrawLine(new Vector3(width, -height), new Vector3(width, height));
         Gizmos.DrawLine(new Vector3(width, height), new Vector3(-width, height));
         Gizmos.DrawLine(new Vector3(-width, height), new Vector3(-width, -height));
+    }
+
+    private void FixedUpdate() {
+        frameCounter++;
+
+        if (frameCounter >= maxFrameCount) {
+            windDirection = Random.insideUnitCircle.normalized;
+            frameCounter = 0;
+        }
     }
 }
