@@ -17,6 +17,8 @@ public class Boid : MonoBehaviour {
 
     public Boid2D boid;
 
+    private float perceptionRadius;
+
     public Vector2 rule1Vector, rule2Vector, rule3Vector;
     private GameObject[] boidsPerceived;
 
@@ -40,8 +42,10 @@ public class Boid : MonoBehaviour {
         desiredSeparation = transform.parent.GetComponent<BoidManager>().desiredSeparation;
 
         boid.position = transform.position;
-        boid.velocity = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
-        boid.angle = Random.Range(0, 360);
+        boid.velocity = Random.insideUnitCircle.normalized * maxSpeed;
+        boid.angle = Mathf.Atan2(boid.velocity.y, boid.velocity.x) * Mathf.Rad2Deg;
+
+        perceptionRadius = transform.parent.GetComponent<BoidManager>().boidPerceptionRadius;
 
         rule1Vector = Vector2.zero;
         rule2Vector = Vector2.zero;
@@ -65,18 +69,47 @@ public class Boid : MonoBehaviour {
     }
 
     private void Update() {
+        Vector2 combinedVector = Vector2.zero;
         boidsPerceived = transform.parent.GetComponent<BoidManager>().boids;
 
-        rule1Vector = Rule1();
-        rule2Vector = Rule2();
-        rule3Vector = Rule3();
+        bool isBoidPerceived = CheckForNeighboringBoids();
+        
+        if (isBoidPerceived) {
+            rule1Vector = Rule1();
+            rule2Vector = Rule2();
+            rule3Vector = Rule3();
 
-        boid.velocity += rule1Vector + rule2Vector + rule3Vector;
+            combinedVector = rule1Vector + rule2Vector + rule3Vector;
+        } else {
+            combinedVector = boid.velocity;
+        }
+
+        boid.velocity += combinedVector;
         boid.velocity = Vector2.ClampMagnitude(boid.velocity, maxSpeed);
-        boid.position += boid.velocity;
-        //boid.position += boid.velocity * Time.deltaTime;
+        //boid.position += boid.velocity;
+        boid.position += boid.velocity * Time.deltaTime;
         
         // if the boid is out of the area, make it appear on the other side
+        WrapAround();
+
+        transform.position = boid.position;
+        boid.angle = Mathf.Atan2(boid.velocity.y, boid.velocity.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, boid.angle);
+    }
+
+    private bool CheckForNeighboringBoids() {
+        foreach (GameObject boidPerceived in boidsPerceived) {
+            if (boidPerceived != gameObject) {
+                if (Vector2.Distance(boidPerceived.transform.position, transform.position) < perceptionRadius) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private void WrapAround() {
         if (boid.position.x > widthOfArea) {
             boid.position.x = -widthOfArea;
         } else if (boid.position.x < -widthOfArea) {
@@ -88,10 +121,6 @@ public class Boid : MonoBehaviour {
         } else if (boid.position.y < -heightOfArea) {
             boid.position.y = heightOfArea;
         }
-
-        transform.position = boid.position;
-        boid.angle = Mathf.Atan2(boid.velocity.y, boid.velocity.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0, 0, boid.angle);
     }
 
     /// <summary>
@@ -128,6 +157,7 @@ public class Boid : MonoBehaviour {
             if (boidPerceived != gameObject) {
                 if (Vector2.Distance(boidPerceived.transform.position, transform.position) < desiredSeparation) {
                     separationVector -= (Vector2)boidPerceived.transform.position - boid.position;
+                    separationVector *= 2;
                 }
             }
         }
@@ -148,8 +178,11 @@ public class Boid : MonoBehaviour {
             }
         }
 
-        averageVelocityPerceived /= boidCountPerceived;
-
-        return (averageVelocityPerceived - boid.velocity) / (float)velocityMatched;
+        if (boidCountPerceived > 0) {
+            averageVelocityPerceived /= boidCountPerceived;
+            return (averageVelocityPerceived - boid.velocity) / (float)velocityMatched;
+        } else {
+            return Vector2.zero;
+        }
     }
 }

@@ -17,6 +17,7 @@ public class BoidManager : MonoBehaviour {
     [SerializeField] public GameObject camera;
 
     [Header("Boid Characteristics")]
+    [SerializeField] public float boidPerceptionRadius;
     [SerializeField] public float maxSpeed;
     [SerializeField] public float desiredSeparation;
     [SerializeField] public int percentageMovedToCenter;
